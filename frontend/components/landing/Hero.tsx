@@ -1,11 +1,18 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { ArrowRight, ShieldCheck, FileSearch, Sparkles } from "lucide-react"
+import { useState, useEffect } from "react";
+
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, ShieldCheck, FileSearch, Sparkles } from "lucide-react";
 
 export function Hero() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setIsLoggedIn(!!localStorage.getItem("token"));
+  }, []);
   return (
     <section className="relative min-h-[90vh] flex items-center overflow-hidden px-6 pt-24 pb-16">
       {/* Abstract Background Elements */}
@@ -43,8 +50,9 @@ export function Hero() {
               .
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground">
-              GhostAuditAI combines multi-model AI detection with an intelligent humanizer so your content passes
-              scrutiny—without sacrificing voice, nuance, or intent.
+              GhostAuditAI combines multi-model AI detection with an intelligent
+              humanizer so your content passes scrutiny—without sacrificing
+              voice, nuance, or intent.
             </p>
           </motion.div>
 
@@ -54,12 +62,21 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="flex flex-col items-center gap-3 sm:flex-row sm:items-stretch lg:items-center lg:gap-4"
           >
-            <Link href="/register" className="w-full sm:w-auto">
-              <Button className="group h-14 w-full px-8 text-base md:text-lg bg-primary hover:bg-primary/90 shadow-xl shadow-primary/25">
-                Start free audit
-                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-              </Button>
-            </Link>
+            {isLoggedIn ? (
+              <Link href="/dashboard" className="w-full sm:w-auto">
+                <Button className="group h-14 w-full px-8 text-base md:text-lg bg-primary hover:bg-primary/90 shadow-xl shadow-primary/25">
+                  Go to Dashboard
+                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </Link>
+            ) : (
+              <Link href="/register" className="w-full sm:w-auto">
+                <Button className="group h-14 w-full px-8 text-base md:text-lg bg-primary hover:bg-primary/90 shadow-xl shadow-primary/25">
+                  Start free audit
+                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+                </Button>
+              </Link>
+            )}
             <Link href="#how-it-works" className="w-full sm:w-auto">
               <Button
                 variant="outline"
@@ -121,7 +138,9 @@ export function Hero() {
               <div className="space-y-3">
                 <div className="rounded-xl border bg-background/70 p-3">
                   <div className="mb-2 flex items-center justify-between text-xs">
-                    <span className="font-medium text-muted-foreground">Authenticity score</span>
+                    <span className="font-medium text-muted-foreground">
+                      Authenticity score
+                    </span>
                     <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-500">
                       Human-like
                     </span>
@@ -137,33 +156,55 @@ export function Hero() {
 
                 <div className="space-y-2 rounded-xl border bg-background/70 p-3 text-xs">
                   <div className="flex items-center justify-between">
-                    <span className="font-medium text-muted-foreground">Detector breakdown</span>
-                    <span className="text-[10px] text-muted-foreground">Multi-model analysis</span>
+                    <span className="font-medium text-muted-foreground">
+                      Detector breakdown
+                    </span>
+                    <span className="text-[10px] text-muted-foreground">
+                      Multi-model analysis
+                    </span>
                   </div>
                   <div className="grid grid-cols-3 gap-2">
                     <div className="rounded-lg bg-muted/60 p-2">
-                      <p className="text-[11px] text-muted-foreground">Model A</p>
-                      <p className="text-sm font-semibold text-foreground">Human</p>
+                      <p className="text-[11px] text-muted-foreground">
+                        Model A
+                      </p>
+                      <p className="text-sm font-semibold text-foreground">
+                        Human
+                      </p>
                     </div>
                     <div className="rounded-lg bg-muted/60 p-2">
-                      <p className="text-[11px] text-muted-foreground">Model B</p>
-                      <p className="text-sm font-semibold text-foreground">Borderline</p>
+                      <p className="text-[11px] text-muted-foreground">
+                        Model B
+                      </p>
+                      <p className="text-sm font-semibold text-foreground">
+                        Borderline
+                      </p>
                     </div>
                     <div className="rounded-lg bg-muted/60 p-2">
-                      <p className="text-[11px] text-muted-foreground">Model C</p>
-                      <p className="text-sm font-semibold text-foreground">Human</p>
+                      <p className="text-[11px] text-muted-foreground">
+                        Model C
+                      </p>
+                      <p className="text-sm font-semibold text-foreground">
+                        Human
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
 
               <div className="space-y-3 rounded-xl border bg-background/70 p-3 text-xs">
-                <p className="text-[11px] font-medium text-muted-foreground">Suggested humanization</p>
+                <p className="text-[11px] font-medium text-muted-foreground">
+                  Suggested humanization
+                </p>
                 <div className="rounded-lg bg-muted/70 p-2 text-[11px] leading-relaxed">
                   <p className="text-muted-foreground">
                     “Our findings indicate a{" "}
-                    <span className="font-semibold text-foreground">high confidence</span> that this document reads as
-                    naturally human. We recommend light rephrasing in 3 sentences to further diversify structure.”
+                    <span className="font-semibold text-foreground">
+                      high confidence
+                    </span>{" "}
+                    that this document reads as naturally human. We recommend
+                    light rephrasing in 3 sentences to further diversify
+                    structure.”
                   </p>
                 </div>
                 <button className="mt-1 inline-flex w-full items-center justify-center rounded-lg bg-primary/90 px-3 py-2 text-[11px] font-medium text-primary-foreground hover:bg-primary">
@@ -175,5 +216,5 @@ export function Hero() {
         </motion.div>
       </div>
     </section>
-  )
+  );
 }
