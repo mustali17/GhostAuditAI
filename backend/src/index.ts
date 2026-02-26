@@ -7,6 +7,8 @@ import { connectDB } from "./config/db";
 dotenv.config();
 
 const app = express();
+// Trust the reverse proxy to ensure secure cookies work in production
+app.set("trust proxy", 1);
 const port = process.env.PORT || 5000;
 
 // Middleware
