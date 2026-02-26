@@ -18,15 +18,12 @@ export default function DashboardPage() {
 
   const fetchData = async () => {
     try {
-      const token = localStorage.getItem("token");
-      const headers = { Authorization: `Bearer ${token}` };
-
       const [statsRes, auditsRes] = await Promise.all([
         axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/dashboard/stats`, {
-          headers,
+          withCredentials: true,
         }),
         axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/dashboard/recent`, {
-          headers,
+          withCredentials: true,
         }),
       ]);
 

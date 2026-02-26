@@ -13,11 +13,10 @@ function BillingContent() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const token = localStorage.getItem("token");
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`,
           {
-            headers: { Authorization: `Bearer ${token}` },
+            withCredentials: true,
           },
         );
         setCurrentTier(response.data.tier || "FREE");

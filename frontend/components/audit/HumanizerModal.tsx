@@ -34,11 +34,10 @@ export default function HumanizerModal({
   const generateSuggestions = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("token");
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/audit/humanize`,
         { sentence },
-        { headers: { Authorization: `Bearer ${token}` } },
+        { withCredentials: true },
       );
       setSuggestions(response.data.suggestions);
     } catch (error) {

@@ -15,11 +15,10 @@ export default function AuditDetailPage() {
   useEffect(() => {
     const fetchAudit = async () => {
       try {
-        const token = localStorage.getItem("token");
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/api/audit/${id}`,
           {
-            headers: { Authorization: `Bearer ${token}` },
+            withCredentials: true,
           },
         );
         setAudit(response.data);

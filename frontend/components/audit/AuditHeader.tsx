@@ -19,11 +19,10 @@ export default function AuditHeader({
 }: AuditHeaderProps) {
   const handleExport = async () => {
     try {
-      const token = localStorage.getItem("token");
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/api/audit/${auditId}/pdf`,
         {
-          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
           responseType: "blob",
         },
       );

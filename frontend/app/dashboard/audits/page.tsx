@@ -15,11 +15,10 @@ export default function AuditsPage() {
   const fetchAudits = async (pageNum: number) => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("token");
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/api/dashboard/audits?page=${pageNum}&limit=10`,
         {
-          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
         },
       );
       setAudits(response.data.audits);

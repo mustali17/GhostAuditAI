@@ -39,11 +39,10 @@ export default function PricingCard({
 
   const handleUpgrade = async () => {
     try {
-      const token = localStorage.getItem("token");
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/subscription/create-session`,
         { tier: tierKey },
-        { headers: { Authorization: `Bearer ${token}` } },
+        { withCredentials: true },
       );
 
       const stripe = await stripePromise;

@@ -38,12 +38,11 @@ export default function IntegrationsPage() {
 
   const checkConnection = async () => {
     try {
-      const token = localStorage.getItem("token");
       // Temporary workaround: Try to fetch files. If success, we are connected.
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/api/google/files`,
         {
-          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
         },
       );
       setIsConnected(true);
@@ -55,11 +54,10 @@ export default function IntegrationsPage() {
 
   const handleConnect = async () => {
     try {
-      const token = localStorage.getItem("token");
       const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}/api/google/auth-url`,
         {
-          headers: { Authorization: `Bearer ${token}` },
+          withCredentials: true,
         },
       );
       window.location.href = response.data.url;
@@ -71,11 +69,10 @@ export default function IntegrationsPage() {
 
   const handleSelectFolder = async (folderId: string) => {
     try {
-      const token = localStorage.getItem("token");
       await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/google/watchfolder`,
         { folderId },
-        { headers: { Authorization: `Bearer ${token}` } },
+        { withCredentials: true },
       );
       setSelectedFolder(folderId);
       alert("Watchfolder updated successfully!");
@@ -87,11 +84,10 @@ export default function IntegrationsPage() {
   const handleSync = async () => {
     try {
       setLoading(true);
-      const token = localStorage.getItem("token");
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/api/google/sync`,
         {},
-        { headers: { Authorization: `Bearer ${token}` } },
+        { withCredentials: true },
       );
       alert(response.data.message);
     } catch (error) {

@@ -22,11 +22,10 @@ export default function SettingsPage() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const token = localStorage.getItem("token");
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`,
           {
-            headers: { Authorization: `Bearer ${token}` },
+            withCredentials: true,
           },
         );
         setUser(response.data);

@@ -54,15 +54,20 @@ export default function DashboardLayout({
   );
 
   useEffect(() => {
-    // Optionally fetch user profile from an /api/auth/me endpoint
-    // if you want to display their real name/avatar,
-    // or keep using local storage just for user visual data (not auth token).
-    // For now, let's keep the user object in localStorage just for the avatar name display,
-    // but the actual auth protection is handled by middleware.
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
+    const fetchUser = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`,
+          {
+            withCredentials: true,
+          },
+        );
+        setUser(response.data);
+      } catch (error) {
+        console.error("Failed to fetch user", error);
+      }
+    };
+    fetchUser();
   }, []);
 
   const handleLogout = async () => {
