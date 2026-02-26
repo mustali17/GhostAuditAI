@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -53,17 +54,27 @@ export default function DashboardLayout({
   );
 
   useEffect(() => {
-    // Determine user (simulated or from local storage)
+    // Optionally fetch user profile from an /api/auth/me endpoint
+    // if you want to display their real name/avatar,
+    // or keep using local storage just for user visual data (not auth token).
+    // For now, let's keep the user object in localStorage just for the avatar name display,
+    // but the actual auth protection is handled by middleware.
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
-    } else {
-      router.push("/login");
     }
-  }, [router]);
+  }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
+  const handleLogout = async () => {
+    try {
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/logout`,
+        {},
+        { withCredentials: true },
+      );
+    } catch (error) {
+      // Log out even if the server request fails
+    }
     localStorage.removeItem("user");
     router.push("/login");
   };

@@ -9,11 +9,6 @@ import { Ghost } from "lucide-react";
 export function Navbar() {
   const { scrollY } = useScroll();
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    setIsLoggedIn(!!localStorage.getItem("token"));
-  }, []);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsScrolled(latest > 50);
@@ -59,26 +54,16 @@ export function Navbar() {
       </div>
 
       <div className="flex items-center gap-4">
-        {isLoggedIn ? (
-          <Link href="/dashboard">
-            <Button className="text-sm bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20">
-              Dashboard
-            </Button>
-          </Link>
-        ) : (
-          <>
-            <Link href="/login">
-              <Button variant="ghost" className="text-sm">
-                Login
-              </Button>
-            </Link>
-            <Link href="/register">
-              <Button className="text-sm bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20">
-                Get Started
-              </Button>
-            </Link>
-          </>
-        )}
+        <Link href="/login">
+          <Button variant="ghost" className="text-sm">
+            Dashboard
+          </Button>
+        </Link>
+        <Link href="/register">
+          <Button className="text-sm bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20">
+            Get Started
+          </Button>
+        </Link>
       </div>
     </motion.nav>
   );

@@ -1,25 +1,28 @@
-"use client"
+"use client";
 
-import { motion } from "framer-motion"
-import { UploadCloud, ScanSearch, FileCheck } from "lucide-react"
+import { motion } from "framer-motion";
+import { UploadCloud, ScanSearch, FileCheck } from "lucide-react";
 
 const steps = [
   {
     icon: UploadCloud,
     title: "Upload Document",
-    description: "Drag and drop your PDF or Word document into our secure scanner.",
+    description:
+      "Drag and drop your PDF or Word document into our secure scanner.",
   },
   {
     icon: ScanSearch,
     title: "AI Analysis",
-    description: "Our triple-threat engine analyzes distinct patterns, watermarks, and syntax.",
+    description:
+      "Our triple-threat engine analyzes distinct patterns, watermarks, and syntax.",
   },
   {
     icon: FileCheck,
     title: "Get Results",
-    description: "Receive a comprehensive report with an authentically human score.",
+    description:
+      "Receive a comprehensive report with an authentically human score.",
   },
-]
+];
 
 export function HowItWorks() {
   return (
@@ -36,7 +39,7 @@ export function HowItWorks() {
             How it Works
           </motion.h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Three simple steps to verify your content's authenticity.
+            Three simple steps to verify your content&apos;s authenticity.
           </p>
         </div>
 
@@ -60,11 +63,13 @@ export function HowItWorks() {
                 </div>
               </div>
               <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
-              <p className="text-muted-foreground max-w-xs">{step.description}</p>
+              <p className="text-muted-foreground max-w-xs">
+                {step.description}
+              </p>
             </motion.div>
           ))}
         </div>
       </div>
     </section>
-  )
+  );
 }

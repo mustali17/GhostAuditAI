@@ -1,18 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
-
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ShieldCheck, FileSearch, Sparkles } from "lucide-react";
 
 export function Hero() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    setIsLoggedIn(!!localStorage.getItem("token"));
-  }, []);
   return (
     <section className="relative min-h-[90vh] flex items-center overflow-hidden px-6 pt-24 pb-16">
       {/* Abstract Background Elements */}
@@ -62,21 +55,12 @@ export function Hero() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="flex flex-col items-center gap-3 sm:flex-row sm:items-stretch lg:items-center lg:gap-4"
           >
-            {isLoggedIn ? (
-              <Link href="/dashboard" className="w-full sm:w-auto">
-                <Button className="group h-14 w-full px-8 text-base md:text-lg bg-primary hover:bg-primary/90 shadow-xl shadow-primary/25">
-                  Go to Dashboard
-                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </Link>
-            ) : (
-              <Link href="/register" className="w-full sm:w-auto">
-                <Button className="group h-14 w-full px-8 text-base md:text-lg bg-primary hover:bg-primary/90 shadow-xl shadow-primary/25">
-                  Start free audit
-                  <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                </Button>
-              </Link>
-            )}
+            <Link href="/register" className="w-full sm:w-auto">
+              <Button className="group h-14 w-full px-8 text-base md:text-lg bg-primary hover:bg-primary/90 shadow-xl shadow-primary/25">
+                Start free audit
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </Link>
             <Link href="#how-it-works" className="w-full sm:w-auto">
               <Button
                 variant="outline"
