@@ -10,6 +10,29 @@ const generateToken = (id: string) => {
   });
 };
 
+const getCookieDomain = () => {
+  if (process.env.NODE_ENV !== "production") return undefined;
+  // Use the first frontend URL to determine the domain if we have multiple
+  const frontendUrl = process.env.FRONTEND_URL
+    ? process.env.FRONTEND_URL.split(",")[0].trim()
+    : "";
+  if (frontendUrl.includes("localhost")) return undefined;
+
+  try {
+    const url = new URL(frontendUrl);
+    // Assuming backend is api.domain.com and frontend is domain.com
+    // To share cookies between them, domain should be .domain.com
+    // This simple logic extracts 'domain.com' from 'www.domain.com' or 'domain.com'
+    const parts = url.hostname.split(".");
+    if (parts.length >= 2) {
+      return `.${parts[parts.length - 2]}.${parts[parts.length - 1]}`;
+    }
+    return url.hostname;
+  } catch (e) {
+    return undefined;
+  }
+};
+
 export const register = async (req: Request, res: Response) => {
   const { name, email, password, organizationName } = req.body;
 
@@ -46,6 +69,7 @@ export const register = async (req: Request, res: Response) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      domain: getCookieDomain(),
       maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
     });
 
@@ -74,6 +98,7 @@ export const login = async (req: Request, res: Response) => {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+        domain: getCookieDomain(),
         maxAge: 30 * 24 * 60 * 60 * 1000,
       });
 
@@ -97,6 +122,7 @@ export const logout = (req: Request, res: Response) => {
     expires: new Date(0), // expire immediately
     secure: process.env.NODE_ENV === "production",
     sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+    domain: getCookieDomain(),
   });
   res.status(200).json({ message: "Logged out successfully" });
 };
