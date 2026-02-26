@@ -1,43 +1,53 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import axios from 'axios'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { Ghost, Loader2, Lock } from 'lucide-react'
+import { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Ghost, Loader2, Lock } from "lucide-react";
 
-import { Button } from '@/components/ui/button'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from "@/components/ui/card";
 
 export default function RegisterPage() {
-  const router = useRouter()
+  const router = useRouter();
 
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/register', { name, email, password })
-      localStorage.setItem('token', response.data.token)
-      localStorage.setItem('user', JSON.stringify(response.data))
-      router.push('/dashboard')
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`,
+        { name, email, password },
+      );
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user", JSON.stringify(response.data));
+      router.push("/dashboard");
     } catch (error: any) {
-      console.error(error)
-      alert(error.response?.data?.message || 'Registration failed')
+      console.error(error);
+      alert(error.response?.data?.message || "Registration failed");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   const handleGoogleLogin = () => {
-    alert('Google login not yet implemented')
-  }
+    alert("Google login not yet implemented");
+  };
 
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background px-4 py-10 sm:px-6 lg:px-8">
@@ -60,7 +70,9 @@ export default function RegisterPage() {
                   <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
                     GhostAuditAI
                   </p>
-                  <p className="text-xs text-muted-foreground">Create your AI audit workspace</p>
+                  <p className="text-xs text-muted-foreground">
+                    Create your AI audit workspace
+                  </p>
                 </div>
               </div>
               <div>
@@ -68,7 +80,8 @@ export default function RegisterPage() {
                   Create an account
                 </CardTitle>
                 <CardDescription className="mt-1 text-sm text-muted-foreground">
-                  Start scanning documents, sharing reports, and collaborating with your team.
+                  Start scanning documents, sharing reports, and collaborating
+                  with your team.
                 </CardDescription>
               </div>
             </CardHeader>
@@ -121,7 +134,8 @@ export default function RegisterPage() {
                     <Lock className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   </div>
                   <p className="text-[11px] text-muted-foreground">
-                    Use at least 8 characters, including a number and a symbol for best security.
+                    Use at least 8 characters, including a number and a symbol
+                    for best security.
                   </p>
                 </div>
 
@@ -132,7 +146,7 @@ export default function RegisterPage() {
                       Creating your account...
                     </>
                   ) : (
-                    'Create account'
+                    "Create account"
                   )}
                 </Button>
               </form>
@@ -171,8 +185,11 @@ export default function RegisterPage() {
 
             <CardFooter className="mt-4 flex justify-center p-0">
               <p className="text-sm text-muted-foreground">
-                Already have an account?{' '}
-                <Link href="/login" className="font-medium text-primary hover:text-primary/80">
+                Already have an account?{" "}
+                <Link
+                  href="/login"
+                  className="font-medium text-primary hover:text-primary/80"
+                >
                   Sign in
                 </Link>
               </p>
@@ -190,35 +207,46 @@ export default function RegisterPage() {
               Ship content that passes every audit.
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              From students to marketing teams, GhostAuditAI keeps your copy human-sounding while reducing AI detector
-              flags across institutions and platforms.
+              From students to marketing teams, GhostAuditAI keeps your copy
+              human-sounding while reducing AI detector flags across
+              institutions and platforms.
             </p>
           </div>
 
           <div className="mt-6 space-y-3 rounded-xl border border-primary/20 bg-background/60 p-4 text-xs">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <p className="text-[11px] text-muted-foreground">Time to first audit</p>
-                <p className="text-sm font-semibold text-foreground">&lt; 60 seconds</p>
+                <p className="text-[11px] text-muted-foreground">
+                  Time to first audit
+                </p>
+                <p className="text-sm font-semibold text-foreground">
+                  &lt; 60 seconds
+                </p>
               </div>
               <div>
-                <p className="text-[11px] text-muted-foreground">Collaboration seats</p>
-                <p className="text-sm font-semibold text-foreground">Unlimited</p>
+                <p className="text-[11px] text-muted-foreground">
+                  Collaboration seats
+                </p>
+                <p className="text-sm font-semibold text-foreground">
+                  Unlimited
+                </p>
               </div>
             </div>
             <div className="h-1.5 overflow-hidden rounded-full bg-muted">
               <div className="h-full w-[72%] rounded-full bg-gradient-to-r from-primary to-purple-500" />
             </div>
             <p className="text-[11px] text-muted-foreground">
-              Join thousands of users who automate AI checks before submitting critical work.
+              Join thousands of users who automate AI checks before submitting
+              critical work.
             </p>
           </div>
 
           <p className="mt-4 text-[11px] text-muted-foreground">
-            “Onboarding our writers to GhostAuditAI took minutes and instantly improved our approval rates.”
+            “Onboarding our writers to GhostAuditAI took minutes and instantly
+            improved our approval rates.”
           </p>
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,41 +1,51 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import axios from 'axios'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { Ghost, Loader2, Lock } from 'lucide-react'
+import { useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Ghost, Loader2, Lock } from "lucide-react";
 
-import { Button } from '@/components/ui/button'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card'
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from "@/components/ui/card";
 
 export default function LoginPage() {
-  const router = useRouter()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
+    e.preventDefault();
+    setLoading(true);
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', { email, password })
-      localStorage.setItem('token', response.data.token)
-      localStorage.setItem('user', JSON.stringify(response.data))
-      router.push('/dashboard')
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`,
+        { email, password },
+      );
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user", JSON.stringify(response.data));
+      router.push("/dashboard");
     } catch (error: any) {
-      console.error(error)
-      alert(error.response?.data?.message || 'Login failed')
+      console.error(error);
+      alert(error.response?.data?.message || "Login failed");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleGoogleLogin = () => {
-    alert('Google login not implemented yet.')
-  }
+    alert("Google login not implemented yet.");
+  };
 
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-background px-4 py-10 sm:px-6 lg:px-8">
@@ -58,7 +68,9 @@ export default function LoginPage() {
                   <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
                     GhostAuditAI
                   </p>
-                  <p className="text-xs text-muted-foreground">Secure sign-in to your audit workspace</p>
+                  <p className="text-xs text-muted-foreground">
+                    Secure sign-in to your audit workspace
+                  </p>
                 </div>
               </div>
               <div>
@@ -66,7 +78,8 @@ export default function LoginPage() {
                   Welcome back
                 </CardTitle>
                 <CardDescription className="mt-1 text-sm text-muted-foreground">
-                  Log in to run new audits, review reports, and manage your team.
+                  Log in to run new audits, review reports, and manage your
+                  team.
                 </CardDescription>
               </div>
             </CardHeader>
@@ -93,7 +106,10 @@ export default function LoginPage() {
                     <Label htmlFor="password" className="text-sm">
                       Password
                     </Label>
-                    <Link href="#" className="text-xs font-medium text-primary hover:text-primary/80">
+                    <Link
+                      href="#"
+                      className="text-xs font-medium text-primary hover:text-primary/80"
+                    >
                       Forgot password?
                     </Link>
                   </div>
@@ -109,7 +125,8 @@ export default function LoginPage() {
                     <Lock className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   </div>
                   <p className="text-[11px] text-muted-foreground">
-                    By continuing, you confirm you&apos;re authorized to access this workspace.
+                    By continuing, you confirm you&apos;re authorized to access
+                    this workspace.
                   </p>
                 </div>
 
@@ -120,7 +137,7 @@ export default function LoginPage() {
                       Signing you in...
                     </>
                   ) : (
-                    'Sign in'
+                    "Sign in"
                   )}
                 </Button>
               </form>
@@ -159,8 +176,11 @@ export default function LoginPage() {
 
             <CardFooter className="mt-4 flex justify-center p-0">
               <p className="text-sm text-muted-foreground">
-                Don&apos;t have an account?{' '}
-                <Link href="/register" className="font-medium text-primary hover:text-primary/80">
+                Don&apos;t have an account?{" "}
+                <Link
+                  href="/register"
+                  className="font-medium text-primary hover:text-primary/80"
+                >
                   Create one
                 </Link>
               </p>
@@ -178,14 +198,17 @@ export default function LoginPage() {
               Real-time insights into AI-generated content.
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              See how your documents perform across multiple detectors, get sentence-level flags, and apply our
-              humanizer before you ever hit submit.
+              See how your documents perform across multiple detectors, get
+              sentence-level flags, and apply our humanizer before you ever hit
+              submit.
             </p>
           </div>
 
           <div className="mt-6 space-y-3 rounded-xl border border-primary/20 bg-background/60 p-4 text-xs">
             <div className="flex items-center justify-between">
-              <span className="text-muted-foreground">Average authenticity score</span>
+              <span className="text-muted-foreground">
+                Average authenticity score
+              </span>
               <span className="text-sm font-semibold text-foreground">88%</span>
             </div>
             <div className="h-1.5 overflow-hidden rounded-full bg-muted">
@@ -197,21 +220,26 @@ export default function LoginPage() {
                 <p className="text-sm font-semibold text-foreground">1,200+</p>
               </div>
               <div>
-                <p className="text-[11px] text-muted-foreground">Docs / month</p>
+                <p className="text-[11px] text-muted-foreground">
+                  Docs / month
+                </p>
                 <p className="text-sm font-semibold text-foreground">50k+</p>
               </div>
               <div>
-                <p className="text-[11px] text-muted-foreground">Flag reduction</p>
+                <p className="text-[11px] text-muted-foreground">
+                  Flag reduction
+                </p>
                 <p className="text-sm font-semibold text-foreground">-73%</p>
               </div>
             </div>
           </div>
 
           <p className="mt-4 text-[11px] text-muted-foreground">
-            “GhostAuditAI is the safety net between our writers and institutional detectors.”
+            “GhostAuditAI is the safety net between our writers and
+            institutional detectors.”
           </p>
         </div>
       </div>
     </div>
-  )
+  );
 }
