@@ -14,6 +14,43 @@ export default function Home() {
       <HowItWorks />
       <CTA />
       <Footer />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "SoftwareApplication",
+                "name": "GhostAuditAI",
+                "applicationCategory": "UtilitiesApplication",
+                "operatingSystem": "Web",
+                "offers": {
+                  "@type": "Offer",
+                  "price": "0",
+                  "priceCurrency": "USD",
+                },
+                "description": "Advanced AI detection and humanization tool for content creators. Verify authenticity and bypass AI detectors.",
+                "aggregateRating": {
+                  "@type": "AggregateRating",
+                  "ratingValue": "4.8",
+                  "ratingCount": "1250",
+                },
+              },
+              {
+                "@type": "Organization",
+                "name": "GhostAuditAI",
+                "url": "https://ghostaudit.ai",
+                "logo": "https://ghostaudit.ai/logo.png",
+                "sameAs": [
+                  "https://twitter.com/ghostauditai",
+                  "https://github.com/ghostauditai",
+                ],
+              },
+            ],
+          }),
+        }}
+      />
     </main>
   )
 }
