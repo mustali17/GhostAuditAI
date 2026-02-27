@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Schema } from "mongoose";
 
 export interface IUser extends Document {
   email: string;
@@ -7,7 +7,7 @@ export interface IUser extends Document {
   organizationId?: mongoose.Types.ObjectId;
   stripeCustomerId?: string;
   subscriptionId?: string;
-  subscriptionStatus?: 'active' | 'past_due' | 'canceled' | 'incomplete';
+  subscriptionStatus?: "active" | "past_due" | "canceled" | "incomplete";
   tier: string; // 'FREE' | 'GROWTH' | 'AGENCY'
   googleAccessToken?: string;
   googleRefreshToken?: string;
@@ -19,18 +19,24 @@ export interface IUser extends Document {
 const UserSchema: Schema = new Schema(
   {
     email: { type: String, required: true, unique: true },
-    passwordHash: { type: String, required: true },
+    passwordHash: { type: String, required: false },
     name: { type: String, required: true },
-    organizationId: { type: mongoose.Schema.Types.ObjectId, ref: 'Organization' },
+    organizationId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Organization",
+    },
     stripeCustomerId: { type: String },
     subscriptionId: { type: String },
-    subscriptionStatus: { type: String, enum: ['active', 'past_due', 'canceled', 'incomplete'] },
-    tier: { type: String, default: 'FREE' },
+    subscriptionStatus: {
+      type: String,
+      enum: ["active", "past_due", "canceled", "incomplete"],
+    },
+    tier: { type: String, default: "FREE" },
     googleAccessToken: { type: String },
     googleRefreshToken: { type: String },
     watchFolderId: { type: String },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-export default mongoose.model<IUser>('User', UserSchema);
+export default mongoose.model<IUser>("User", UserSchema);

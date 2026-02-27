@@ -44,8 +44,16 @@ export default function RegisterPage() {
     }
   }
 
-  const handleGoogleLogin = () => {
-    alert("Google login not yet implemented");
+  const handleGoogleLogin = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google/url`,
+      );
+      window.location.href = response.data.url;
+    } catch (error) {
+      console.error("Failed to initialize Google sign-up", error);
+      alert("Failed to initialize Google sign-up");
+    }
   };
 
   return (

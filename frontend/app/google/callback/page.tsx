@@ -11,27 +11,47 @@ function GoogleCallbackContent() {
   const [status, setStatus] = useState("Authenticating with Google...");
 
   useEffect(() => {
+    const state = searchParams.get("state");
     const code = searchParams.get("code");
 
     if (!code) {
       setStatus("No authorization code found.");
-      setTimeout(() => router.push("/dashboard/integrations"), 3000);
+      setTimeout(() => {
+        if (state === "login") router.push("/login");
+        else router.push("/dashboard/integrations");
+      }, 3000);
       return;
     }
 
     const exchangeCode = async () => {
       try {
-        await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/google/exchange`,
-          { code },
-          { withCredentials: true },
-        );
-        setStatus("Successfully connected Google Drive! Redirecting...");
-        setTimeout(() => router.push("/dashboard/integrations"), 1500);
+        if (state === "login") {
+          await axios.post(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google/callback`,
+            { code },
+            { withCredentials: true },
+          );
+          setStatus("Successfully logged in! Redirecting...");
+          setTimeout(() => router.push("/dashboard"), 1500);
+        } else {
+          await axios.post(
+            `${process.env.NEXT_PUBLIC_API_URL}/api/google/exchange`,
+            { code },
+            { withCredentials: true },
+          );
+          setStatus("Successfully connected Google Drive! Redirecting...");
+          setTimeout(() => router.push("/dashboard/integrations"), 1500);
+        }
       } catch (error) {
         console.error("Failed to exchange code", error);
         setStatus("Failed to authenticate with Google. Please try again.");
-        setTimeout(() => router.push("/dashboard/integrations"), 3000);
+        setTimeout(() => {
+          if (state === "login") {
+            router.push("/login");
+          } else {
+            router.push("/dashboard/integrations");
+          }
+        }, 3000);
       }
     };
 

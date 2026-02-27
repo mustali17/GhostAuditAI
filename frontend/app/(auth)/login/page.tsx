@@ -42,8 +42,16 @@ export default function LoginPage() {
     }
   };
 
-  const handleGoogleLogin = () => {
-    alert("Google login not implemented yet.");
+  const handleGoogleLogin = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google/url`,
+      );
+      window.location.href = response.data.url;
+    } catch (error) {
+      console.error("Failed to initialize Google login", error);
+      alert("Failed to initialize Google login");
+    }
   };
 
   return (
