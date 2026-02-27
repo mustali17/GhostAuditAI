@@ -164,3 +164,22 @@ export const syncFiles = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Failed to sync files" });
   }
 };
+
+export const disconnectDrive = async (req: Request, res: Response) => {
+  const userId = req.user?._id;
+
+  try {
+    await User.findByIdAndUpdate(userId, {
+      $unset: {
+        googleAccessToken: "",
+        googleRefreshToken: "",
+        watchFolderId: "",
+      },
+    });
+
+    res.json({ message: "Google Drive disconnected successfully" });
+  } catch (error: any) {
+    console.error("Error disconnecting drive:", error);
+    res.status(500).json({ message: "Failed to disconnect Google Drive" });
+  }
+};

@@ -98,6 +98,28 @@ export default function IntegrationsPage() {
     }
   };
 
+  const handleDisconnect = async () => {
+    if (!confirm("Are you sure you want to disconnect Google Drive?")) return;
+
+    try {
+      setLoading(true);
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/google/disconnect`,
+        {},
+        { withCredentials: true },
+      );
+      setIsConnected(false);
+      setFolders([]);
+      setSelectedFolder("");
+      alert("Google Drive disconnected successfully");
+    } catch (error) {
+      console.error("Failed to disconnect", error);
+      alert("Disconnect failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="space-y-6 max-w-4xl">
       <div>
@@ -149,6 +171,15 @@ export default function IntegrationsPage() {
                   >
                     <CheckCircle className="mr-2 h-4 w-4 text-green-500" />
                     Linked
+                  </Button>
+                  <Button
+                    onClick={handleDisconnect}
+                    disabled={loading}
+                    variant="outline"
+                    size="sm"
+                    className="border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700"
+                  >
+                    Disconnect
                   </Button>
                 </div>
               ) : (
